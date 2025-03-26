@@ -91,7 +91,7 @@ contract ProverRegistryVerifierTest is TaikoL1TestBase {
         });
     }
 
-    function _proofTransition() internal view returns (TaikoData.Transition memory transition) {
+    function _proofTransition() internal pure returns (TaikoData.Transition memory transition) {
         transition = TaikoData.Transition({
             parentHash: bytes32("12"),
             blockHash: bytes32("34"),

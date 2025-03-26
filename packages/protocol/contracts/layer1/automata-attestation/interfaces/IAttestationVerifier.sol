@@ -15,6 +15,10 @@ interface IAttestationVerifier {
     error REPORT_DATA_MISMATCH(bytes32 want, bytes32 got);
     error INVALID_PRC10(bytes32 pcr10);
 
+    event AttestationVerifierInitialized(address owner, address attestation, bool checkPcr10);
+    event CheckPcr10Updated(bool check);
+    event ImagePcr10Updated(bytes32 pcr10, bool trusted);
+
     function setImagePcr10(bytes32 _pcr10, bool _trusted) external;
     function verifyAttestation(
         bytes calldata _report,

@@ -43,6 +43,8 @@ interface IProverRegistry {
     error PROVER_TYPE_MISMATCH();
     error PROVER_ADDR_MISMATCH(address, address);
     error PROVER_OUT_OF_DATE(uint256);
+    error INVALID_ATTEST_VALIDITY_SECONDS();
+    error MAX_BLOCK_NUMBER_DIFF_TOO_LARGE();
 
     // attestation verifier
     error INVALID_REPORT();
@@ -54,11 +56,35 @@ interface IProverRegistry {
         uint256 indexed id, address indexed instance, address replaced, uint256 validUntil
     );
     event VerifyProof(uint256 proofs);
+    event ProverRegistryInitialized(
+        address verifier,
+        uint256 attestValiditySeconds,
+        uint256 maxBlockNumberDiff
+    );
 
-    /// @notice register prover instance with quote
+    /**
+     * @notice Register a new prover instance with attestation quote
+     * @param _report The attestation report containing the TEE quote
+     * @param _data The report data containing prover details:
+     *        - addr: The prover's address
+     *        - teeType: Type of TEE (1 for IntelTDX)
+     *        - referenceBlockNumber: Block number for verification
+     *        - referenceBlockHash: Block hash for verification
+     *        - binHash: Hash of the binary
+     *        - ext: Additional extension data
+     */
     function register(bytes calldata _report, ReportData calldata _data) external;
 
-    /// @notice validate whether the prover with (instanceID, address)
+    /**
+     * @notice Validate a prover instance
+     * @param _instanceID The unique identifier of the prover instance
+     * @param _proverAddr The address of the prover to validate
+     * @return ProverInstance containing:
+     *         - addr: The prover's address
+     *         - validUntil: Timestamp until which the prover is valid
+     *         - teeType: Type of TEE (1 for IntelTDX)
+     * @dev Reverts if instance ID is invalid, prover address mismatch, or instance expired
+     */
     function checkProver(
         uint256 _instanceID,
         address _proverAddr

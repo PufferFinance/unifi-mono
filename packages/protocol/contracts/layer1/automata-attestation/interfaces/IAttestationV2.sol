@@ -31,7 +31,8 @@ interface IAttestationV2 {
         returns (bool success, bytes memory output);
 
     /**
-     * @param journal - The output of the Guest program, this includes:
+     * @notice Verifies an attestation using ZK proof and processes the result
+     * @param journal The output of the Guest program, this includes:
      * - VerifiedOutput struct
      * - TcbInfo hash
      * - QEID hash
@@ -40,7 +41,10 @@ interface IAttestationV2 {
      * - Root CRL hash
      * - Platform CRL hash
      * - Processor CRL hash
-     * @param seal - The encoded cryptographic proof (i.e. SNARK).
+     * @param seal The encoded cryptographic proof (i.e. SNARK)
+     * @return success Whether the verification was successful
+     * @return output The verification result data. For successful verifications, contains processed output.
+     * For failures, contains a UTF-8 encoded error message
      */
     function verifyAndAttestWithZKProof(
         bytes calldata journal,
