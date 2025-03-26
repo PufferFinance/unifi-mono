@@ -13,19 +13,25 @@ contract AttestationVerifier is IAttestationVerifier, EssentialContract {
 
     uint256[47] private __gap;
 
-function init(
-    address _owner,
-    address _automataDcapAttestation,
-    bool _checkPcr10
-)
-    external
-    initializer
-{
-    __Essential_init(_owner);
-    automataDcapAttestation = IAttestationV2(_automataDcapAttestation);
-    checkPcr10 = _checkPcr10;
-    emit AttestationVerifierInitialized(_owner, _automataDcapAttestation, _checkPcr10);
-}
+    /// @notice Initializes the AttestationVerifier contract
+    /// @param _owner The address that will be granted ownership permissions
+    /// @param _automataDcapAttestation Address of the Automata DCAP attestation contract. If set to address(0),
+    ///        the contract will operate in mock mode and bypass all attestation verification
+    /// @param _checkPcr10 If true, enables PCR10 verification against trusted values
+    /// @dev Sets up the contract with initial configuration and emits an event upon completion
+    function init(
+        address _owner,
+        address _automataDcapAttestation,
+        bool _checkPcr10
+    )
+        external
+        initializer
+    {
+        __Essential_init(_owner);
+        automataDcapAttestation = IAttestationV2(_automataDcapAttestation);
+        checkPcr10 = _checkPcr10;
+        emit AttestationVerifierInitialized(_owner, _automataDcapAttestation, _checkPcr10);
+    }
 
     /// @notice Sets whether PCR10 verification is enabled
     /// @param _check If true, PCR10 values will be verified against trusted values

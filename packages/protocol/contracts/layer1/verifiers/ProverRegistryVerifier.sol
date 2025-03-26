@@ -24,6 +24,17 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
 
     uint256[46] private __gap;
 
+    /// @notice Initializes the ProverRegistryVerifier contract
+    /// @param _owner The address that will be granted ownership permissions
+    /// @param _rollupAddressManager The address of the rollup address manager
+    /// @param _verifierAddr The address of the attestation verifier contract. Cannot be address(0)
+    /// @param _attestValiditySeconds Duration in seconds for which an attestation remains valid
+    /// @param _maxBlockNumberDiff Maximum allowed difference between current and reference block numbers
+    /// @dev Sets up the contract with initial configuration and emits an event upon completion.
+    ///      Reverts if:
+    ///      1. _verifierAddr is address(0)
+    ///      2. _attestValiditySeconds is 0
+    ///      3. _maxBlockNumberDiff exceeds 256
     function init(
         address _owner,
         address _rollupAddressManager,
