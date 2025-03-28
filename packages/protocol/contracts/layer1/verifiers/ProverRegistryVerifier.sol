@@ -2,6 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "../../shared/common/EssentialContract.sol";
 import "../automata-attestation/interfaces/IAttestationVerifier.sol";
 import "../../shared/common/LibStrings.sol";
@@ -12,6 +13,8 @@ import "./IVerifier.sol";
 import "./LibPublicInput.sol";
 
 contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract {
+    using SafeCast for uint256;
+
     IAttestationVerifier public verifier; // slot 1
 
     // Pack these variables into a single slot 2
@@ -52,8 +55,8 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
         if (_maxBlockNumberDiff > 256) revert MAX_BLOCK_NUMBER_DIFF_TOO_LARGE();
 
         verifier = IAttestationVerifier(_verifierAddr);
-        attestValiditySeconds = uint64(_attestValiditySeconds);
-        maxBlockNumberDiff = uint64(_maxBlockNumberDiff);
+        attestValiditySeconds = _attestValiditySeconds.toUint64();
+        maxBlockNumberDiff = _maxBlockNumberDiff.toUint64();
         emit ProverRegistryInitialized(_verifierAddr, _attestValiditySeconds, _maxBlockNumberDiff);
     }
 
@@ -78,8 +81,8 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
         if (_maxBlockNumberDiff > 256) revert MAX_BLOCK_NUMBER_DIFF_TOO_LARGE();
 
         verifier = IAttestationVerifier(_verifierAddr);
-        attestValiditySeconds = uint64(_attestValiditySeconds);
-        maxBlockNumberDiff = uint64(_maxBlockNumberDiff);
+        attestValiditySeconds = _attestValiditySeconds.toUint64();
+        maxBlockNumberDiff = _maxBlockNumberDiff.toUint64();
         emit ProverRegistryInitialized(_verifierAddr, _attestValiditySeconds, _maxBlockNumberDiff);
     }
 

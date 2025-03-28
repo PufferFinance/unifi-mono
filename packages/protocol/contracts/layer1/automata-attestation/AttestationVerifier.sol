@@ -30,7 +30,7 @@ contract AttestationVerifier is IAttestationVerifier, EssentialContract {
         __Essential_init(_owner);
         automataDcapAttestation = IAttestationV2(_automataDcapAttestation);
         checkPcr10 = _checkPcr10;
-        emit AttestationVerifierInitialized(_owner, _automataDcapAttestation, _checkPcr10);
+        emit AttestationVerifierInitialized(_automataDcapAttestation, _checkPcr10);
     }
 
     /// @notice Sets whether PCR10 verification is enabled
