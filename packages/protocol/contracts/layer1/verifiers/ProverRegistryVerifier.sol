@@ -50,7 +50,7 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
     {
         __Essential_init(_owner, _rollupAddressManager);
 
-        if (_verifierAddr == address(0)) revert PROVER_INVALID_ADDR(_verifierAddr);
+        if (_verifierAddr == address(0)) revert VERIFIER_INVALID_ADDR();
         if (_attestValiditySeconds == 0) revert INVALID_ATTEST_VALIDITY_SECONDS();
         if (_maxBlockNumberDiff > 256) revert MAX_BLOCK_NUMBER_DIFF_TOO_LARGE();
 
@@ -76,7 +76,7 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
         onlyOwner
         reinitializer(i)
     {
-        if (_verifierAddr == address(0)) revert PROVER_INVALID_ADDR(_verifierAddr);
+        if (_verifierAddr == address(0)) revert VERIFIER_INVALID_ADDR();
         if (_attestValiditySeconds == 0) revert INVALID_ATTEST_VALIDITY_SECONDS();
         if (_maxBlockNumberDiff > 256) revert MAX_BLOCK_NUMBER_DIFF_TOO_LARGE();
 
@@ -189,8 +189,6 @@ contract ProverRegistryVerifier is IVerifier, IProverRegistry, EssentialContract
         if (_proverAddr == address(0)) revert PROVER_INVALID_ADDR(_proverAddr);
         prover = attestedProvers[_instanceID];
         if (prover.addr != _proverAddr) revert PROVER_ADDR_MISMATCH(prover.addr, _proverAddr);
-        if (prover.validUntil < block.timestamp) revert PROVER_OUT_OF_DATE(prover.validUntil);
-        return prover;
         if (prover.validUntil < block.timestamp) revert PROVER_OUT_OF_DATE(prover.validUntil);
         return prover;
     }

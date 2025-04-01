@@ -40,6 +40,7 @@ interface IProverRegistry {
     error PROVER_INVALID_PROOF();
     error PROVER_INVALID_INSTANCE_ID(uint256);
     error PROVER_INVALID_ADDR(address);
+    error VERIFIER_INVALID_ADDR();
     error PROVER_TYPE_MISMATCH();
     error PROVER_ADDR_MISMATCH(address, address);
     error PROVER_OUT_OF_DATE(uint256);
